@@ -32,10 +32,6 @@ const App = () => {
 
   }
 
-// const Most =() =>{
-
-//   setMax(Math.max.apply(null, votes))
-// }
 const max1= Math.max.apply(null, votes)
   return (
     <div>
