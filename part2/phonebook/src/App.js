@@ -1,14 +1,11 @@
-import { useState } from 'react'
+import { useState , useEffect} from 'react'
 import Display from './components/Display'
+import axios from 'axios'
 import Filter from './components/Filter'
 import Name from './components/Name'
 import Number from './components/Number'
 const App = () => {
   const [persons, setPersons] = useState([
-    { id: 1, name: 'Arto Hellas', number: "098-763-4542" },
-    { id: 2, name: 'Jane June', number: "098-763-4542" },
-    { id: 3, name: 'Taylor Smith', number: "098-763-4542" },
-    { id: 4, name: 'Henery Smoth', number: "098-763-4542" }
   ]) 
   const [newName, setNewName] = useState('')
 
@@ -19,7 +16,19 @@ const App = () => {
   const personsToShow = newSearch === '' 
   ? persons
   : persons.filter(person => person.name.toUpperCase().includes(newSearch.toUpperCase()))
+  const hook = () => {
+    console.log('effect')
+    axios
+      .get('http://localhost:3001/persons')
+      .then(response => {
+        console.log('promise fulfilled')
+        setPersons(response.data)
+      })
+  }
   
+  useEffect(hook, [])
+
+  console.log('render', persons.length, 'persons')
   const handleSearchName = (event) =>{
     
     setNewSearch(event.target.value)
