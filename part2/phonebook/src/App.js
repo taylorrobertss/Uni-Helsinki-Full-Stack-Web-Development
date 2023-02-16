@@ -4,6 +4,7 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Name from './components/Name'
 import Number from './components/Number'
+import phoneServices from './services/phonebook'
 const App = () => {
   const [persons, setPersons] = useState([
   ]) 
@@ -40,21 +41,45 @@ const App = () => {
   }
   const handleNumberChange = (event) =>{
     console.log(event.target.value)
+   
     setNewNumber(event.target.value)
     
 }
-
+  const removeItem = (id) => {
+    phoneServices.deleteItem(id)
+    .then(returnedPerson => {
+      const result = window.confirm(`Delete ${persons.find(person => person.id === id).name}?`)
+      if (result)
+        setPersons(persons.filter(person => person.id !== id))
+    })
+    .catch(error => {
+      alert("Something went wrong")
+    })
+  }
+     
+    
      const addPerson = (event) => {
+      const personToBeSearched = persons.find((person)=>person.name === newName)
      event.preventDefault()
      console.log('button clicked', event.target)
      let mapped =persons.map(persons => persons.name)
      let found =mapped.includes(newName)
 
      if(found){
-      console.log("Name is already in the list")
-      alert(`${newName} is already added to phonebook`)
-     }
+      const result = window.confirm(`${personToBeSearched.name} is already added to phonebook, replace the old number with a new one?`)
+      if(result){
+        const updatedPerson = {...personToBeSearched, number: newNumber}
+        phoneServices.replaceNumber(updatedPerson.id, updatedPerson)
+        .then(returnedPerson => {
+          setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
+        
+        })
+      }
+        
+     
+    }
      else{
+      
       if(newName !== '' ){
         
         const personObject = {
@@ -63,14 +88,19 @@ const App = () => {
           number: newNumber
         
         }
-        setPersons(persons.concat(personObject))
-        setNewName('')
-        setNewNumber('')
-
+        
+        phoneServices
+        .create(personObject)
+        .then(returnedNote => {
+          setPersons(persons.concat(returnedNote))
+          setNewName('')
+          setNewNumber('')
+        })
       }
      }
-        
+
     }
+   
   return (
     <div>
       <h2>Phonebook</h2>
@@ -85,11 +115,12 @@ const App = () => {
        </form>   
 
       <h2>Numbers</h2>
-      <Display personsToShow={personsToShow}/>
+      <Display removeItem={removeItem} personsToShow={personsToShow} />
     
     </div>
     
   )
 }
+
 
 export default App
