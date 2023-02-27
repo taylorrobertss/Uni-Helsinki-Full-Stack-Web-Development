@@ -19,7 +19,11 @@
       "name": "Mary Poppendieck",
       "number": "39-23-6423122",
       "id": 4
+    },
+    {
+      "name": "Fred C. Lunenburg",
+      "id": 8,
+      "number": "565-443-222"
     }
-  
   ]
 }

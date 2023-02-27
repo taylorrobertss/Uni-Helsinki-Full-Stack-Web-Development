@@ -4,7 +4,10 @@ import axios from 'axios'
 import Filter from './components/Filter'
 import Name from './components/Name'
 import Number from './components/Number'
+import Notification from './components/Notification'
+import Error from './components/Error'
 import phoneServices from './services/phonebook'
+import './index.css'
 const App = () => {
   const [persons, setPersons] = useState([
   ]) 
@@ -13,6 +16,9 @@ const App = () => {
   const [newNumber, setNewNumber] = useState('')
 
   const [newSearch, setNewSearch] = useState('')
+
+  const [notificationMessage, setNotification] = useState(null)
+  const [ErrorMessage, setError] = useState(null)
 
   const personsToShow = newSearch === '' 
   ? persons
@@ -74,6 +80,14 @@ const App = () => {
           setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
         
         })
+         .catch(error => {
+          setError(
+            `Information for '${personToBeSearched.name}' has already been deleted from the server `
+          )
+          setTimeout(() => {
+            setError(null)
+          }, 5000)
+    })
       }
         
      
@@ -96,6 +110,12 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+        setNotification(
+          `Added '${personObject.name}' `
+        )
+        setTimeout(() => {
+          setNotification(null)
+        }, 5000)
       }
      }
 
@@ -107,7 +127,8 @@ const App = () => {
       <Filter handleSearchName={handleSearchName} newSearch={newSearch}/>
      
       <h2>Add a new Person</h2>
-
+      <Notification  message={notificationMessage} />
+      <Error  message={ErrorMessage} />
       <form onSubmit={addPerson}>
         <Name handleNameChange={handleNameChange} newName={newName}/>
         <Number handleNumberChange={handleNumberChange} newNumber={newNumber}/>
