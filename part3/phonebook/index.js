@@ -1,6 +1,25 @@
 const express = require('express')
 const app = express()
-app.use(express.json())
+const morgan = require('morgan')
+const requestLogger = (request, response, next) => {
+    console.log('Method:', request.method)
+    console.log('Path:  ', request.path)
+    console.log('Body:  ', request.body)
+    console.log('---')
+    next()
+  }
+  
+  const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+  }
+  
+  app.use(express.json())
+  app.use(requestLogger)
+  morgan.token('body', req => {
+    return JSON.stringify(req.body)
+  })
+  app.use(morgan(':method :url :body') )
+  
 let persons = [
     { 
         "id": 1,
@@ -70,7 +89,7 @@ let persons = [
             error: 'Name must be unique' 
           })
     }
-  
+   
     const person = {
       name: body.name,
       number: body.number,
