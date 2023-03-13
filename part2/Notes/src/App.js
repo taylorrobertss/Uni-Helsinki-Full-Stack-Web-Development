@@ -72,33 +72,34 @@ const App = () => {
         })
     }
 
-  return (
-    <div>
-      <h1>Notes</h1>
-      <Notification  message={errorMessage} />
+    return (
       <div>
-        <button onClick={() => setShowAll(!showAll)}>
-          show {showAll ? 'important' : 'all' }
-        </button>
-      </div> 
-      <ul>
-        <ul className='note'>
-          {notesToShow.map(note => 
-            <Note 
-            key={note.id}
-             note={note} 
-             toggleImportance={() => toggleImportanceOf(note.id)}
-             />
-          )}
+        <h1>Notes app</h1>
+        <Notification message={errorMessage} />
+        <div>
+          <button onClick={() => setShowAll(!showAll)}>
+            show {showAll ? 'important' : 'all' }
+          </button>
+        </div> 
+        <ul>
+          <ul>
+            {notesToShow.map(note => 
+              <Note
+                key={note.id}
+                note={note}
+                toggleImportance={() => toggleImportanceOf(note.id)}
+              />
+            )}
+          </ul>
         </ul>
-      </ul>
-      <form onSubmit={addNote}>
-        <input value={newNote} onChange={handleNoteChange} />
-        <button type="submit">save</button>
-      </form>
-      <Footer />
-    </div>
-  )
-}
+        <form onSubmit={addNote}>
+          <input value={newNote} onChange={handleNoteChange} />
+          <button type="submit">save</button>
+        </form>
+        <Footer />
+      </div>
+    )
+  }
+  
 
 export default App
