@@ -1,6 +1,9 @@
 const express = require('express')
 const app = express()
 const morgan = require('morgan')
+app.use(express.static('build'))
+const cors = require('cors')
+app.use(cors())
 const requestLogger = (request, response, next) => {
     console.log('Method:', request.method)
     console.log('Path:  ', request.path)
@@ -38,7 +41,7 @@ let persons = [
       },
       { 
         "id": 4,
-        "name": "Mary Poppendieck", 
+        "name": "Sam Poppendieck", 
         "number": "39-23-6423122"
       }
   ]
@@ -102,6 +105,8 @@ let persons = [
     
   })
 
-const PORT = 3001
-app.listen(PORT)
-console.log(`Server running on port ${PORT}`)
+
+  const PORT = process.env.PORT || 3001
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+  })
