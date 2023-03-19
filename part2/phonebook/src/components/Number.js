@@ -1,10 +1,10 @@
 const Number = (props) => {
-    return (
+  return (
     <div>
-        number: 
-       <input value ={props.newNumber} onChange= {props.handleNumberChange} />
+      number:
+      <input value={props.newNumber} onChange={props.handleNumberChange} />
     </div>
-    )
-  }
-  
-  export default Number
+  )
+}
+
+export default Number

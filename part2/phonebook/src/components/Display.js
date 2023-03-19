@@ -1,15 +1,15 @@
 const Display = (props) => {
-    return (
+  return (
     <ul>
-        {props.personsToShow.map((persons) => 
-        <li key = {persons.id}> {persons.name} {persons.number}
-        <button onClick = {()=>props.removeItem(persons.id)}>delete</button>
+      {props.personsToShow.map((persons) =>
+        <li key={persons.id}> {persons.name} {persons.number}
+          <button onClick={() => props.removeItem(persons.id)}>delete</button>
         </li>
-        )}
-  
-      </ul>
-   
-    )
-  }
-  
-  export default Display
+      )}
+
+    </ul>
+
+  )
+}
+
+export default Display
