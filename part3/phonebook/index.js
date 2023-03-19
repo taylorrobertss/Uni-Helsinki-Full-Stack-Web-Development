@@ -27,7 +27,9 @@ const requestLogger = (request, response, next) => {
   
     if (error.name === 'CastError') {
       return response.status(400).send({ error: 'malformatted id' })
-    } 
+    } else if (error.name === 'ValidationError') {
+      return response.status(400).json({ error: error.message })
+    }
   
     next(error)
   }
@@ -96,14 +98,14 @@ app.get("/api/info", (request, response, next) => {
       : 0
     return maxId + 1
   }
-  app.post('/api/persons', (request, response) => {
+  app.post('/api/persons', (request, response, next) => {
     const body = request.body
     console.log("inside post")
-    if (!body.name || !body.number ) {
-      return response.status(400).json({ 
-        error: 'content missing' 
-      })
-     }
+    // if (!body.name || !body.number ) {
+    //   return response.status(400).json({ 
+    //     error: 'content missing' 
+    //   })
+     //}
     // if(persons.map(n => n.name).includes(body.name)){
     //     return response.status(400).json({ 
     //         error: 'Name must be unique' 
@@ -120,22 +122,27 @@ app.get("/api/info", (request, response, next) => {
     person.save().then(savedPerson => {
       response.json(savedPerson)
     })
+    .catch(error => next(error))
     
   })
 
   app.put('/api/persons/:id', (request, response, next) =>{
-    const body = request.body
-
-    const person = {
-      name: body.name,
-      number: body.number,
-    }
+   // const body = request.body
+    const { name, number } = request.body
+    // const person = {
+    //   name: body.name,
+    //   number: body.number,
+    // }
   
-    Person.findByIdAndUpdate(request.params.id, person, { new: true })
+    Person.findByIdAndUpdate(
+      request.params.id, 
+      { name, number },
+      { new: true, runValidators: true, context: 'query' }
+    ) 
       .then(updatePerson => {
         response.json(updatePerson)
       })
-      .catch(error => next(updatePerson))
+      .catch(error => next(error))
    })
   app.use(unknownEndpoint)
   app.use(errorHandler)

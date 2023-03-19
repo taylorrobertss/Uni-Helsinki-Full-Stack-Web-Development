@@ -79,19 +79,25 @@ const App = () => {
         .then(returnedPerson => {
           setPersons(persons.map(person => person.id !== returnedPerson.id ? person : returnedPerson))
         
-        })
-         .catch(error => {
+          setNotification(
+          `Number for ${personToBeSearched.name} has been updated successfully!`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 3500);
+      })
+        .catch((error) => {
+          console.log("test")
           setError(
-            `Information for '${personToBeSearched.name}' has already been deleted from the server `
-          )
+            `Information of ${personToBeSearched.name} has already been removed from the server!`
+          );
           setTimeout(() => {
-            setError(null)
-          }, 5000)
-    })
-      }
-        
+            setError(null);
+          }, 3500);
+        });
      
     }
+  }
      else{
       
       if(newName !== '' ){
@@ -109,13 +115,22 @@ const App = () => {
           setPersons(persons.concat(returnedNote))
           setNewName('')
           setNewNumber('')
-        })
-        setNotification(
-          `Added '${personObject.name}' `
-        )
-        setTimeout(() => {
-          setNotification(null)
-        }, 5000)
+          setNotification(
+            `Added '${personObject.name}' `
+          )
+          setTimeout(() => {
+            setNotification(null)
+          }, 5000)
+         })
+      
+        .catch((error) => {
+          console.log("test")
+          setError(error.response.data.error);
+          setTimeout(() => {
+            setError(null);
+          }, 3500);
+        });
+       
       }
      }
 
