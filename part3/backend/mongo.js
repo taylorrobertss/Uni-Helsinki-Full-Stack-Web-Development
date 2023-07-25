@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 
 
-const url = process.env.MONGODB_URI
+const url = process.env.TEST_MONGODB_URI
 
 console.log('connecting to', url)
 
@@ -27,12 +27,12 @@ const note = new Note({
   important: true,
 })
 
-/*
+
 note.save().then(result => {
   console.log('note saved!')
   mongoose.connection.close()
 })
-*/
+
 
 Note.find({}).then(result => {
   result.forEach(note => {
