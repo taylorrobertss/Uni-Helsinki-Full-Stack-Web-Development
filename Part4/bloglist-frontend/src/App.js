@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
+import Notification from './components/notification'
 import CreateBlog from "./components/createBlog";
 const App = () => {
   const [blogs, setBlogs] = useState([])
@@ -9,7 +10,7 @@ const App = () => {
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
   const [errorMessage, setErrorMessage] = useState(null)
-
+  const [notificationMessage, setNotification] = useState(null)
 
   const [title, setTitle] = useState("");
 
@@ -37,6 +38,7 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
+   
 
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
@@ -46,11 +48,21 @@ const App = () => {
       setUser(user)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      setErrorMessage('wrong credentials')
+
+         setNotification(
+        `User ${username} has logged in sucessfully`
+      );
       setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000)
+        setNotification(null);
+      }, 3500);
+    
+    } catch (exception) {
+      setNotification(
+        `Login Failed, wrong credentials`
+      );
+      setTimeout(() => {
+        setNotification(null);
+      }, 3500);
     }
 
   }
@@ -86,19 +98,6 @@ const App = () => {
     </form>
   )
 
-  const blogForm = () => (
-
-    
-
-    <form onSubmit={setBlogs}>
-      <input
-        value={setBlogs}
-        onChange={handleBlogChange}
-      />
-      <button type="submit">save</button>
-    </form>
-  )
-
   const handleSubmit = async event => {
     event.preventDefault();
     try {
@@ -113,6 +112,14 @@ const App = () => {
       try {
         createdBlog = await blogService.create(newBlog);
         console.log("createdBlog", createdBlog);
+
+        setNotification(
+          `Blog ${newBlog.title} has be added`
+        );
+        setTimeout(() => {
+          setNotification(null);
+        }, 3500);
+
       } catch (error) {
         console.log("error", error);
       }
@@ -135,6 +142,7 @@ const App = () => {
 
   return (
     <div>
+      <Notification message={notificationMessage} />
       <h3>Log into the application</h3>
       {!user && loginForm()}
       {user && <div>
