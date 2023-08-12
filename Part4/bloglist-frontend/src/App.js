@@ -108,35 +108,33 @@ const App = () => {
       };
 
       let createdBlog = null;
-      console.log("newBlog in handlesubmit", newBlog);
+    
       try {
         createdBlog = await blogService.create(newBlog);
-        console.log("createdBlog", createdBlog);
-
         setNotification(
           `Blog ${newBlog.title} has be added`
         );
         setTimeout(() => {
-          setNotification(null);
+          setNotification(null)
         }, 3500);
 
       } catch (error) {
-        console.log("error", error);
+        console.log(error)
       }
     
       const Nblogs = [...blogs, createdBlog];
-      setBlogs(Nblogs);
+      setBlogs(Nblogs)
   
-      setUrl("");
-      setTitle("");
-      setAuthor("");
+      setUrl("")
+      setTitle("")
+      setAuthor("")
   
      
     } catch (exception) {
       setErrorMessage("Blog creation failed");
       setTimeout(() => {
-        setErrorMessage(null);
-      }, 4000);
+        setErrorMessage(null)
+      }, 4000)
     }
   };
 
