@@ -117,8 +117,8 @@ const App = () => {
         console.log("error", error);
       }
     
-      const blogs = [...blogs, createdBlog];
-      setBlogs(blogs);
+      const Nblogs = [...blogs, createdBlog];
+      setBlogs(Nblogs);
   
       setUrl("");
       setTitle("");
@@ -151,8 +151,7 @@ const App = () => {
           handleSubmit={handleSubmit}
           title={title}
           url={url}
-          author={author}
-      />
+          author={author} />
 
         <h2>blogs</h2>
         {blogs.map(blog => (
@@ -160,11 +159,6 @@ const App = () => {
         ))}
       </div>
       }
-
-
-
-
-
     </div>
   )
 }
