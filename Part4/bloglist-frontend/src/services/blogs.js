@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios from 'axios' 
 const baseUrl = '/api/blog'
 
 let token = null
@@ -24,7 +24,7 @@ const create = async newObject => {
 
 const update = async (updateBlog) => {
   const config = {
-    headers: { Authorization : token },
+    headers: { Authorization: token },
   }
   const response = await axios.put(`${baseUrl}/${updateBlog.id}`, updateBlog, config)
   return response.data
@@ -32,7 +32,7 @@ const update = async (updateBlog) => {
 
 const remove = async (deleteBlog) => {
   const config = {
-    headers: { Authorization : token },
+    headers: { Authorization: token },
   }
   const response = await axios.delete(`${baseUrl}/${deleteBlog.id}`, config)
   return response.data

@@ -1,5 +1,5 @@
 import { useState } from "react"
-const Blog = ({blog, handleUpdate, DeleteBlog}) => {
+const Blog = ({ blog, handleUpdate, DeleteBlog }) => {
   const [showMore, setShowMore] = useState(true)
 
   const blogStyle = {
@@ -10,7 +10,7 @@ const Blog = ({blog, handleUpdate, DeleteBlog}) => {
     marginBottom: 5,
     display: 'block'
   }
-   if (!showMore) {
+  if (!showMore) {
     return (
       <div>
         <div className='hidden' style={blogStyle}>
@@ -23,26 +23,26 @@ const Blog = ({blog, handleUpdate, DeleteBlog}) => {
   return (
     <div>
       <div className='expand' style={blogStyle} >
-     
+
         <p>
           {blog.title}
         </p>
         <a href={blog.url}> {blog.url} </a>
-        <p>Likes: {blog.likes}      
-        <button onClick={() => handleUpdate(blog)}>Like</button>
+        <p>Likes: {blog.likes}
+          <button onClick={() => handleUpdate(blog)}>Like</button>
         </p>
         <p>
-        {blog.author}
+          {blog.author}
         </p>
         <button onClick={() => DeleteBlog(blog)}>Remove</button>
-  
+
 
 
         <button onClick={() => setShowMore(false)}>hide</button>
       </div>
     </div>
-  );
-  
+  )
+
 
 }
 

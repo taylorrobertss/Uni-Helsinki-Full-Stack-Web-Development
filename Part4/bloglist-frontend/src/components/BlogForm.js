@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import blogsService from "../services/blogs";
+import React, { useState } from "react"
+import blogsService from "../services/blogs"
 
 const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title, url, author }) => {
   return (
@@ -32,7 +32,7 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <button type="submit">Create</button>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default CreateBlog;
+export default CreateBlog

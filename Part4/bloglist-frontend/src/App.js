@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef} from 'react'
+import { useState, useEffect, useRef } from 'react'
 import Blog from './components/Blog'
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -13,13 +13,12 @@ const App = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [user, setUser] = useState(null)
-  const [errorMessage, setErrorMessage] = useState(null)
   const [notificationMessage, setNotification] = useState(null)
 
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState("")
 
-  const [url, setUrl] = useState("");
-  const [author, setAuthor] = useState("");
+  const [url, setUrl] = useState("")
+  const [author, setAuthor] = useState("")
   const blogFormRef = useRef()
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -42,31 +41,31 @@ const App = () => {
       const user = await loginService.login({
         username, password,
       })
-   
+
 
       window.localStorage.setItem(
         'loggedNoteappUser', JSON.stringify(user)
-      ) 
+      )
 
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
 
-         setNotification(
+      setNotification(
         `User ${username} has logged in sucessfully`
-      );
+      )
       setTimeout(() => {
-        setNotification(null);
-      }, 3500);
-    
+        setNotification(null)
+      }, 3500)
+
     } catch (exception) {
       setNotification(
         `Login Failed, wrong credentials`
-      );
+      )
       setTimeout(() => {
-        setNotification(null);
-      }, 3500);
+        setNotification(null)
+      }, 3500)
     }
 
   }
@@ -78,37 +77,9 @@ const App = () => {
   //       blogFormRef.current.toggleVisibility()
   //     })
   // }
-  const handleBlogChange = (event) => {
-    setBlogs(event.target.value)
-  }
-
-  const handleLogOut = () =>{
+  const handleLogOut = () => {
     window.localStorage.removeItem('loggedNoteappUser')
   }
-
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
-      <div>
-        username
-        <input
-          type="text"
-          value={username}
-          name="Username"
-          onChange={({ target }) => setUsername(target.value)}
-        />
-      </div>
-      <div>
-        password
-        <input
-          type="password"
-          value={password}
-          name="Password"
-          onChange={({ target }) => setPassword(target.value)}
-        />
-      </div>
-      <button type="submit">login</button>
-    </form>
-  )
 
   const handleSubmit = async event => {
     event.preventDefault()
@@ -118,15 +89,15 @@ const App = () => {
         title: title,
         author: author,
         url: url
-      };
+      }
 
-      let createdBlog = null;
-    
+      let createdBlog = null
+
       try {
-        createdBlog = await blogService.create(newBlog);
+        createdBlog = await blogService.create(newBlog)
         setNotification(
           `Blog ${newBlog.title} has be added`
-        );
+        )
         setTimeout(() => {
           setNotification(null)
         }, 3500)
@@ -134,29 +105,30 @@ const App = () => {
       } catch (error) {
         console.log(error)
       }
-    
-      const Nblogs = [...blogs, createdBlog];
+
+      const Nblogs = [...blogs, createdBlog]
       setBlogs(Nblogs)
-  
+
       setUrl("")
       setTitle("")
       setAuthor("")
-  
-     
+
+
     } catch (exception) {
-      setErrorMessage("Blog creation failed");
+      setNotification("Blog creation failed")
       setTimeout(() => {
-        setErrorMessage(null)
+        setNotification(null)
       }, 4000)
     }
   }
 
   const handleUpdate = async blog => {
-    const updateBlog = {...blog,
+    const updateBlog = {
+      ...blog,
       likes: blog.likes + 1
     }
     try {
-   
+
       const likedBlog = await blogService.update(updateBlog)
       const filteredBlogs = blogs.filter(blog => blog.id !== likedBlog.id)
 
@@ -167,7 +139,7 @@ const App = () => {
       console.log(e)
       setNotification(
         `Couldnt update likes`
-      );
+      )
       setTimeout(() => {
         setNotification(null)
       }, 3500)
@@ -203,20 +175,20 @@ const App = () => {
       {user && <div>
         <p>{user.name} logged in</p>
         <form onSubmit={handleLogOut}>
-        
-        <button type="submit">Logout</button>
-       </form>
+
+          <button type="submit">Logout</button>
+        </form>
         <h3>Create a new blog:</h3>
         <Togglable buttonLabel="new blog" ref={blogFormRef}>
           <CreateBlog
-              handleAuthor={e => {setAuthor(e.target.value)}}
-              handleTitle={e =>{setTitle(e.target.value)}}
-              handleUrl={e => {setUrl(e.target.value)}}
-              handleSubmit={handleSubmit}
-              title={title}
-              url={url}
-              author={author} />
-          </Togglable>
+            handleAuthor={e => { setAuthor(e.target.value) }}
+            handleTitle={e => { setTitle(e.target.value) }}
+            handleUrl={e => { setUrl(e.target.value) }}
+            handleSubmit={handleSubmit}
+            title={title}
+            url={url}
+            author={author} />
+        </Togglable>
 
         {/* <Togglable buttonLabel="new blog">
           <CreateBlog
@@ -229,7 +201,7 @@ const App = () => {
             author={author} />
 
         </Togglable> */}
-      
+
 
         <h2>blogs</h2>
         {blogs.map(blog => (
