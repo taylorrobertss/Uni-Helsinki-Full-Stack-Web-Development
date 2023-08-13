@@ -129,7 +129,7 @@ const App = () => {
         );
         setTimeout(() => {
           setNotification(null)
-        }, 3500);
+        }, 3500)
 
       } catch (error) {
         console.log(error)
@@ -149,8 +149,42 @@ const App = () => {
         setErrorMessage(null)
       }, 4000)
     }
-  };
+  }
 
+  const handleUpdate = async blog => {
+    const updateBlog = {...blog,
+      likes: blog.likes + 1
+    }
+    try {
+   
+      const likedBlog = await blogService.update(updateBlog)
+      const filteredBlogs = blogs.filter(blog => blog.id !== likedBlog.id)
+
+      const updatedBlogs = [...filteredBlogs, likedBlog]
+      setBlogs(updatedBlogs.sort((a, b) => b.likes - a.likes))
+
+    } catch (e) {
+      console.log(e)
+      setNotification(
+        `Couldnt update likes`
+      );
+      setTimeout(() => {
+        setNotification(null)
+      }, 3500)
+    }
+  }
+
+  const DeleteBlog = async deleteBlog => {
+    if (window.confirm(`Do you want to delete: ${deleteBlog.title} written by ${deleteBlog.author}?`)) {
+      try {
+        await blogService.remove(deleteBlog)
+        setBlogs(blogs.filter(blog => blog.id !== deleteBlog.id))
+      } catch (e) {
+        console.log(e)
+
+      }
+    }
+  }
   return (
     <div>
       <Notification message={notificationMessage} />
@@ -199,7 +233,7 @@ const App = () => {
 
         <h2>blogs</h2>
         {blogs.map(blog => (
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} handleUpdate={handleUpdate} DeleteBlog={DeleteBlog} />
         ))}
       </div>
       }
