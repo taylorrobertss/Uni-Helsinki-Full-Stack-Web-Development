@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import blogsService from "../services/blogs"
 
 const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title, url, author }) => {
   return (
@@ -8,6 +7,7 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <div>
           Title
           <input
+            className="title"
             type="text"
             value={title}
             name="title"
@@ -16,6 +16,7 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <div>
           Author
           <input
+            className="author"
             type="text"
             value={author}
             name="author"
@@ -24,6 +25,7 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <div>
           Url
           <input
+           className="url"
             type="text"
             value={url}
             name="url"
