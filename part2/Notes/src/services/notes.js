@@ -30,8 +30,6 @@ const update = (id, newObject) => {
   const request = axios.put(`${baseUrl}/${id}`, newObject)
   return request.then(response => response.data)
 }
-const exportObj={
-  getAll, create, update
-};
+
 
 export default { getAll, create, update, setToken }
