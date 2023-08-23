@@ -7,6 +7,7 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <div>
           Title
           <input
+            id="title"
             className="title"
             type="text"
             value={title}
@@ -16,6 +17,7 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <div>
           Author
           <input
+             id="author"
             className="author"
             type="text"
             value={author}
@@ -25,13 +27,14 @@ const CreateBlog = ({ handleAuthor, handleSubmit, handleTitle, handleUrl, title,
         <div>
           Url
           <input
-           className="url"
+            id="url"
+            className="url"
             type="text"
             value={url}
             name="url"
             onChange={handleUrl} />
         </div>
-        <button type="submit">Create</button>
+        <button id="Create" type="submit">Create</button>
       </form>
     </div>
   )

@@ -179,7 +179,7 @@ const App = () => {
           <button type="submit">Logout</button>
         </form>
         <h3>Create a new blog:</h3>
-        <Togglable buttonLabel="new blog" ref={blogFormRef}>
+        <Togglable buttonLabel="Create blog" ref={blogFormRef}>
           <CreateBlog
             handleAuthor={e => { setAuthor(e.target.value) }}
             handleTitle={e => { setTitle(e.target.value) }}

@@ -15,7 +15,7 @@ const Blog = ({blog, handleUpdate, DeleteBlog}) => {
       <div>
         <div className='hidden' style={blogStyle}>
           {blog.title} - {blog.author}
-          <button className="view" onClick={() => setShowMore(true)}>view</button>
+          <button id="view" className="view" onClick={() => setShowMore(true)}>view</button>
         </div>
       </div>
     )
@@ -29,7 +29,7 @@ const Blog = ({blog, handleUpdate, DeleteBlog}) => {
         </p>
         <a className="url" href={blog.url}> {blog.url} </a>
         <p className="likes">Likes: {blog.likes}      
-        <button className="like" onClick={() => handleUpdate(blog)}>Like</button>
+        <button id="like" className="like" onClick={() => handleUpdate(blog)}>Like</button>
         </p>
         <p>
         {blog.author}
